@@ -30,10 +30,8 @@ myForm.addEventListener("submit", function (event) {
     return;
   }
 
-  const todoId = new Date().toLocaleString([], {
-    dateStyle: `medium`,
-    timeStyle: `short`,
-  });
+  const todoId = new Date();
+
   const todoItem = createTodoItem(text, todoId);
   todoList.push(todoItem);
   localStorage.setItem("todoList", JSON.stringify(todoList));
@@ -41,7 +39,7 @@ myForm.addEventListener("submit", function (event) {
   inputText.value = "";
 });
 
-function createHtml(text, todoId, isCompleted = false) {
+function createHtml(text, todoId) {
   const container = document.createElement("div");
   container.classList.add("todo-item");
   const parag = document.createElement("input");
@@ -90,6 +88,12 @@ function removeTodo(el, todoId) {
   el.remove();
 }
 
+function removeCompTodo(el, todoId) {
+  completedList = completedList.filter((todo) => todo.todoId !== todoId);
+  localStorage.setItem("completedList", JSON.stringify(completedList));
+  el.remove();
+}
+
 function editTodo(parag) {
   parag.disabled = false;
   parag.focus();
@@ -113,10 +117,8 @@ function createCompHtml(text, todoId) {
   const button = document.createElement("button");
 
   button.textContent = "-";
-  button.addEventListener("click", () => removeTodo(container, todoId));
+  button.addEventListener("click", () => removeCompTodo(container, todoId));
 
   container.append(paragraph, time, button);
   completedContainer.appendChild(container);
 }
-
-// inputForChange.parentNode.replaceChild(newParag, inputForChange);
