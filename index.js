@@ -30,7 +30,14 @@ myForm.addEventListener("submit", function (event) {
     return;
   }
 
-  const todoId = new Date();
+  const currentDate = new Date();
+
+  const timeStamp = currentDate.toLocaleString([], {
+    dateStyle: "medium",
+    timeStyle: "medium",
+  });
+
+  const todoId = timeStamp;
 
   const todoItem = createTodoItem(text, todoId);
   todoList.push(todoItem);
